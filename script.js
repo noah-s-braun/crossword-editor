@@ -122,6 +122,7 @@ function typeTool() {
         changeFocus();
     })
 }
+
 //add key typing ONCE
 $('.key').on('click', function() {
     thisLetter = $(this).text();
@@ -133,10 +134,18 @@ $('.key').on('click', function() {
         $('.focus').text('');
     }
 })
+//
 //add change direction functionality
 $('.box').on('dblclick', function() {
     typingDirection = 'vertical';
     console.log('changed');
+})
+//
+//change type direction
+$('.type-direction').on('click', function() {
+    $('.type-direction').removeClass('active');
+    $(this).addClass('active');
+    typingDirection = $(this).attr('id')
 })
 
 function changeFocus(method = 'click', direction = 1) {
