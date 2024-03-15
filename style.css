@@ -1,0 +1,124 @@
+:root {
+    --surface-primary: white;
+    --surface-secondary: #EEE;
+    --focus-primary: rgb(173, 229, 255);
+    --focus-secondary: rgba(173, 229, 255, 0.25);
+}
+body {
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100dvh;
+}
+* {
+    /* outline: 1px solid red; */
+}
+
+/* Toolbar */
+div.toolbar {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    height: 20px;
+    background-color: var(--surface-secondary);
+}
+span.tool {
+    padding: 5px 20px;
+    cursor: pointer;
+    font-size: 36px;
+}
+span.active {
+    color: white;
+    background-color: black;
+    border-radius: 5px;
+}
+
+/* Crossword */
+#crossword-canvas {
+    width: 90vw;
+    aspect-ratio: 1 / 1;
+    margin: 30px auto 0 auto;
+    max-height: 100vh;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 0.5vw solid black;
+    position: relative;
+}
+.box {
+    background-color: var(--surface-primary);
+    border: 0.1vw solid gray;
+    aspect-ratio: 1 / 1;
+    font-size: 10vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.box.filled {
+    background-color: black;
+    color: var(--surface-primary);
+}
+.box.filled:hover {
+    background-color: black;
+    color: var(--surface-primary);
+}
+.box:hover {
+    background-color: var(--focus-secondary);
+}
+.box.focus {
+    background-color: var(--focus-primary);
+}
+
+/* Hint Bar */
+#lower-half {
+    justify-self: flex-end;
+}
+
+#hint-bar {
+    height: 4em;
+    background-color: var(--focus-primary);
+}
+
+/* Keyboard */
+#keyboard {
+    background-color: var(--surface-secondary);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-bottom: 40px;
+}
+
+.key {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    background-color: var(--surface-primary);
+    width: 20px;
+    flex-grow: 1;
+    border-radius: 5px;
+    height: 2em;
+    margin: 0 3px;
+    filter: drop-shadow(0 3px 0 rgba(0, 0, 0, 0.2));
+}
+
+.key.pressing {
+    padding-bottom: 2em;
+}
+
+.key#bksp-key {
+    font-size: 10px;
+    align-self: flex-end;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    width: 100%;
+    position: relative;
+}
