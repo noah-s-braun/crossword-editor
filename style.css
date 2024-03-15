@@ -21,26 +21,23 @@ body {
 div.toolbar {
     display: flex;
     justify-content: center;
-    padding: 20px;
-    height: 20px;
-    background-color: var(--surface-secondary);
+    gap: 20px;
+    padding: 10px;
 }
-span.tool {
-    padding: 5px 20px;
+span.type-direction {
     cursor: pointer;
-    font-size: 36px;
-}
-span.active {
-    color: white;
-    background-color: black;
     border-radius: 5px;
+    padding: 2px;
+}
+span.type-direction.active {
+    background-color: var(--focus-primary);
 }
 
 /* Crossword */
 #crossword-canvas {
     width: 90vw;
     aspect-ratio: 1 / 1;
-    margin: 30px auto 0 auto;
+    margin: 10px auto 10px auto;
     max-height: 100vh;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -77,14 +74,19 @@ span.active {
 }
 
 #hint-bar {
-    height: 4em;
     background-color: var(--focus-primary);
+    display: flex;
+    align-items: center;
+}
+
+#hint-bar p {
+    padding: 0px 20px;
 }
 
 /* Keyboard */
 #keyboard {
     background-color: var(--surface-secondary);
-    padding: 20px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -112,6 +114,7 @@ span.active {
 .key#bksp-key {
     font-size: 10px;
     align-self: flex-end;
+    height: 4em;
 }
 
 .row {
