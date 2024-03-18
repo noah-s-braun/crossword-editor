@@ -87,7 +87,7 @@ const CrosswordData = [
     ["u", "v", "w", "x", "y"]
 ];
 const CrosswordWidth = 5;
-crossword = new Crossword('crossword-canvas', CrosswordWidth, CrosswordData);
+const crossword = new Crossword('crossword-canvas', CrosswordWidth, CrosswordData);
 crossword.render();
 crossword.initialize();
 
