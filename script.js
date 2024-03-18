@@ -90,6 +90,7 @@ const CrosswordWidth = 5;
 const crossword = new Crossword('crossword-canvas', CrosswordWidth, CrosswordData);
 crossword.render();
 crossword.initialize();
+changeFocus();
 
 //Tools
 let Tool = 'Type';
@@ -145,7 +146,7 @@ $('.box').on('dblclick', function() {
 $('.type-direction').on('click', function() {
     $('.type-direction').removeClass('active');
     $(this).addClass('active');
-    typingDirection = $(this).attr('id')
+    typingDirection = $(this).attr('id');
 })
 
 function changeFocus(method = 'click', direction = 1) {
