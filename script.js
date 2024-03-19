@@ -9,7 +9,7 @@ let focus = {
     column: 0
 };
 let key = 'A';
-let typingDirection = 'horizontal';
+let typeDirection = 'horizontal';
 //Box class
 class Box {
     
@@ -129,26 +129,32 @@ $('.key').on('click', function() {
     thisLetter = $(this).text();
     if(thisLetter != 'Back') {
         $('.focus').text(thisLetter);
-        changeFocus(typingDirection);
+        changeFocus(typeDirection);
     } else {
-        changeFocus(typingDirection, -1);
+        changeFocus(typeDirection, -1);
         $('.focus').text('');
     }
 })
-//
+
 //add change direction functionality
 $('.box').on('dblclick', function() {
-    typingDirection = 'vertical';
+    typeDirection = 'vertical';
     console.log('changed');
 })
-//
+
 //change type direction
 $('.type-direction').on('click', function() {
     $('.type-direction').removeClass('active');
     $(this).addClass('active');
-    typingDirection = $(this).attr('id');
+    typeDirection = $(this).attr('id');
 })
+function changeTypeDirection(newDirection) {
+    typeDirection = newDirection;
+    $('.type-direction').removeClass('active');
+    $(`#${newDirection}`).addClass('active');
+}
 
+//Change focus
 function changeFocus(method = 'click', direction = 1) {
     $('.focus').removeClass('focus');
     if(method == 'horizontal') {
@@ -157,6 +163,45 @@ function changeFocus(method = 'click', direction = 1) {
     if(method == 'vertical') {
         focus.row+=direction;
     }
+    //Focus bounding
+    if(focus.column == CrosswordWidth) { 
+        focus.column = 0; 
+        if(focus.row == CrosswordWidth - 1) {
+            focus.row = 0;
+            changeTypeDirection('vertical');
+        } else {
+            focus.row++;
+        }
+    }
+    if(focus.row == CrosswordWidth) { 
+        focus.row = 0;
+        if(focus.column == CrosswordWidth - 1) {
+            focus.column = 0;
+            changeTypeDirection('horizontal');
+        } else {
+            focus.column++;
+        } 
+    }
+    if(focus.column == -1) { 
+        focus.column = CrosswordWidth - 1; 
+        if(focus.row == 0) {
+            focus.row = CrosswordWidth - 1;
+            changeTypeDirection('vertical');
+        } else {
+            focus.row--;
+        }
+    }
+    if(focus.row == -1) { 
+        focus.row = CrosswordWidth - 1;
+        if(focus.column == 0) {
+            focus.column = CrosswordWidth - 1;
+            changeTypeDirection('horizontal');
+        } else {
+            focus.column--;
+        }
+    }
+
+
     $(`#${focus.column}-${focus.row}`).addClass('focus');
 }
 
@@ -182,6 +227,7 @@ function rotate180(id) {
     return `${column}-${row}`
 }
 
+//Toolbar
 $('.tool').on('click', function() {
     $('.tool').removeClass('active');
     $('.box').removeClass('focus');
