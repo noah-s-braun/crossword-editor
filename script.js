@@ -27,7 +27,7 @@ class Box {
     }
     
     update() {
-        if(this.content == 'filled') { $(`#${this.id}`).addClass('filled') }
+        if(this.content == '') { $(`#${this.id}`).addClass('filled') }
     }
     
 }
@@ -57,38 +57,239 @@ class Crossword {
         for(let i = 0; i < this.width; i++) {
             const array = [];
             for(let j = 0; j < this.width; j++) {
-                const box = new Box(i, j, this.DataArray[i][j]);
+                const box = new Box(i, j, this.data[i][j]);
                 array.push(box);
             }
             this.BoxesArray.push(array);
         }
     }
 
-    render() {
+    render(letters = false) {
         this.canvas.css('grid-template-columns', `repeat(${this.width}, 1fr)`);
-        this.populate(this.data);
+        // this.populate(this.data);
         for(let i = 0; i < this.width; i++) {
-            const Strip = $('<div>');
+            const newColumn = $('<div>');
             for(let j = 0; j < this.width; j++) {
-                const strip = $(`<div id="${i}-${j}" class="box"></div>`);
-                Strip.append(strip);
+                let filled = '';
+                let content = this.data[j][i];
+                if(content == '') { filled = 'filled'; }
+                if(content != '' && letters == false) { content = ''; }
+                const newBox = $(
+                    `<div id="${i}-${j}" class="box ${filled}">
+                        <span class='hint-number'>1</span>
+                        <span class='box-content'>${content}</span>
+                    </div>`);
+                newColumn.append(newBox);
             }
-            this.canvas.append(Strip);
+            this.canvas.append(newColumn);
         }
     }
 
 }
 
 const CrosswordData = [  
-    ["a", "b", "c", "d", "e"],
-    ["f", "g", "h", "i", "j"],
-    ["k", "l", "m", "n", "o"],
-    ["p", "q", "r", "s", "t"],
-    ["u", "v", "w", "x", "y"]
+    ['J', 'O', 'L', 'T', ''],
+    ['A', 'N', 'E', 'W', ''],
+    ['Y', 'O', 'G', 'I', 'S'],
+    ['', 'F', 'A', 'C', 'E'],
+    ['', 'F', 'L', 'E', 'X']
 ];
+const CrosswordKey = [
+    {
+        word: 'JAY',
+        hint: 'Crested woodland bird',
+        start: [0, 0],
+        direction: 'vertical'
+    },
+    {
+        word: 'ONOFF',
+        hint: 'Powering switch',
+        start: [0, 1],
+        direction: 'vertical'
+    },
+    {
+        word: 'LEGAL',
+        hint: 'Judge-y?',
+        start: [0, 2],
+        direction: 'vertical'
+    },
+    {
+        word: 'TWICE',
+        hint: 'How many times someone is allowed to serve as U.S. president',
+        start: [0, 3],
+        direction: 'vertical'
+    },
+    {
+        word: 'SEX',
+        hint: 'What the Victorian euphemisms "amorous congress" and "taking a flyer" meant',
+        start: [2, 4],
+        direction: 'vertical'
+    },
+    {
+        word: 'JOLT',
+        hint: 'Sudden burst of electricity',
+        start: [0, 0],
+        direction: 'horizontal'
+    },
+    {
+        word: 'ANEW',
+        hint: 'All over again',
+        start: [1, 0],
+        direction: 'horizontal'
+    },
+    {
+        word: 'YOGIS',
+        hint: 'Meditation teachers',
+        start: [2, 0],
+        direction: 'horizontal'
+    },
+    {
+        word: 'FACE',
+        hint: 'Part of the body that\'s altered by a Snapchat filter, often',
+        start: [3, 1],
+        direction: 'horizontal'
+    },
+    {
+        word: 'FLEX',
+        hint: 'Show off one\'s muscles',
+        start: [4, 1],
+        direction: 'horizontal'
+    },
+];
+const crosswordTranslated = [
+    [
+        {
+            content: 'J',
+            filled: false,
+            number: 1,
+            hintHorizontal: 'Sudden burst of electricity',
+            hintVertical: 'Crested woodland bird'
+        },
+        {
+            content: 'O',
+            filled: false,
+            number: 2,
+            hintHorizontal: 'Sudden burst of electricity',
+            hintVertical: 'Powering switch'
+        }, 
+        {
+            content: 'L',
+            filled: false,
+            number: 3,
+            hintHorizontal: 'Sudden burst of electricity',
+            hintVertical: 'Judge-y?'
+        }, 
+        {
+            content: 'T',
+            filled: false,
+            number: 4,
+            hintHorizontal: 'Sudden burst of electricity',
+            hintVertical: 'How many times someone is allowed to serve as U.S. president'
+        }, 
+        {
+            content: '',
+            filled: true,
+            number: '',
+            hintHorizontal: '',
+            hintVertical: ''
+        }, 
+    ],
+    [
+        {
+            content: 'A',
+            filled: false,
+            number: 5,
+            hintHorizontal: 'All over again',
+            hintVertical: 'Crested woodland bird'
+        }, 
+        {
+            content: 'N',
+            filled: false,
+            number: '',
+            hintHorizontal: 'All over again',
+            hintVertical: 'Powering switch'
+        }, 
+        {
+            content: 'E',
+            filled: false,
+            number: '',
+            hintHorizontal: 'All over again',
+            hintVertical: 'Judge-y?'
+        }, 
+        {
+            content: 'W',
+            filled: false,
+            number: '',
+            hintHorizontal: 'All over again',
+            hintVertical: 'How many times someone is allowed to serve as U.S. president'
+        }, 
+        {
+            content: '',
+            filled: true,
+            number: '',
+            hintHorizontal: '',
+            hintVertical: ''
+        }, 
+    ],
+    [
+
+    ],
+    [
+
+    ],
+    [
+
+    ]
+]
+
+//translate crossword key into crossword data
+function translateKey(key, crosswordWidth) {
+    if(key == '') { return console.log('Error: Please provide crossword key.') }
+    const bigArray = [];
+    //construct array
+    for(let i = 0; i < crosswordWidth; i++) {
+        const littleArray = [];
+        for(let j = 0; j < crosswordWidth; j++) {
+            const boxInfo = {
+                content: '',
+                filled: false,
+                number: '',
+                hintHorizontal: '',
+                hintVertical: ''
+            };
+            littleArray.push(boxInfo);
+        }
+        bigArray.push(littleArray);
+    }
+
+    for(let i = 0; i < key.length; i++) {
+        const start = key[i].start;
+        let currentBox = bigArray[start[0]][start[1]];
+        //fill array with letters
+        if(key[i].direction == 'horizontal') {
+            const letters = key[i].word.split('');
+            const hint = key[i].hint;
+            for(let j = 0; j < letters.length; j++) {
+                // console.log(start);
+                currentBox.content = letters[j];
+                currentBox.hintHorizontal = hint;
+                // console.log(letters[j]);
+                currentBox = bigArray[start[0]][start[1] + j + 1];
+            }
+        }
+        //fill array with hint numbers
+        console.log(`Operating on box[${start[0]}][${start[1]}]`);
+        currentBox = bigArray[start[0]][start[1]];
+        if(currentBox.number == '') { currentBox.number = i + 1; }
+    }
+    console.log(bigArray);
+}
+
+translateKey(CrosswordKey, 5);
+
 const CrosswordWidth = 5;
 const crossword = new Crossword('crossword-canvas', CrosswordWidth, CrosswordData);
-crossword.render();
+crossword.render(false);
 crossword.initialize();
 changeFocus();
 
@@ -128,11 +329,11 @@ function typeTool() {
 $('.key').on('click', function() {
     thisLetter = $(this).text();
     if(thisLetter != 'Back') {
-        $('.focus').text(thisLetter);
+        $('.focus .box-content').text(thisLetter);
         changeFocus(typeDirection);
     } else {
         changeFocus(typeDirection, -1);
-        $('.focus').text('');
+        $('.focus .box-content').text('');
     }
 })
 
@@ -203,6 +404,7 @@ function changeFocus(method = 'click', direction = 1) {
 
 
     $(`#${focus.column}-${focus.row}`).addClass('focus');
+    if($('.focus').hasClass('filled')) { changeFocus(method, direction); }
 }
 
 function changeTool() {

@@ -52,6 +52,7 @@ span.type-direction.active {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 .box.filled {
     background-color: black;
@@ -66,6 +67,19 @@ span.type-direction.active {
 }
 .box.focus {
     background-color: var(--focus-primary);
+}
+
+.box .hint-number {
+    position: absolute;
+    font-size: 0.4em;
+    top: 0;
+    left: 0;
+    padding: 0.25em;
+}
+
+.box .box-content {
+    position: relative;
+    top: 0.2em;
 }
 
 /* Hint Bar */
